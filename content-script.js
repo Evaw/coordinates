@@ -2,7 +2,8 @@
 
 (function (window) {
   'use strict';
-  if (document.getElementById('mouseposition-extension-element-coordinate-display')) {
+  const DISPLAY_ID = 'mouseposition-extension-element-coordinate-display';
+  if (document.getElementById(DISPLAY_ID)) {
     // already have the elements
     console.log('[coordinates extension already running]');
     return;
@@ -20,12 +21,26 @@
   let triggeringWithMouse = true;
   let elt;
   elt = document.createElement('div');
-  elt.id = 'mouseposition-extension-element-coordinate-display';
+  elt.id = DISPLAY_ID;
+  let fullContainer = document.createElement('div');
+  fullContainer.id = 'mouseposition-extension-element-full-container';
+  setStyleProp(fullContainer, {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    right: '0px',
+    bottom: '0px',
+    pointerEvents: 'none',
+    zIndex: '2147483647',
+    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif;',
+    fontWeight: '400'
+  });
+  document.body.appendChild(fullContainer);
   let measureElt = document.createElement('div');
   let measureEltTxt = document.createElement('div');
-  document.body.appendChild(measureElt);
+  fullContainer.appendChild(measureElt);
   const areaMeasureColor = '#000';
-  const areaMeasureBg = 'rgba(255,255,255,0.5)';
+  const areaMeasureBg = 'rgba(255,255,255,0.7)';
   measureElt.appendChild(measureEltTxt);
   setStyleProp(measureEltTxt, {
     flex: '1',
@@ -47,8 +62,7 @@
     y: 0
   };
   let lastMouseLocationEv = null;
-
-  document.body.appendChild(elt);
+  fullContainer.appendChild(elt);
   setStyleProp(elt, {
     position: 'absolute',
     display: 'none',
@@ -127,28 +141,30 @@
       leftOffset = -1 * leftOffset - width;
     }
     setStyleProp(elt, {
-      left: xDoc + leftOffset + 'px',
-      top: yDoc + topOffset + 'px'
+      // left: xDoc + leftOffset + 'px',
+      // top: yDoc + topOffset + 'px'
+      left: x + leftOffset + 'px',
+      top: y + topOffset + 'px'
     });
     if (isWidthOn) {
-      let w = (xDoc - rectInitCornerPos.x);
-      let h = (yDoc - rectInitCornerPos.y);
-      let x = rectInitCornerPos.x;
-      let y = rectInitCornerPos.y;
-      if (xDoc < rectInitCornerPos.x) {
-        x = xDoc;
-        w = rectInitCornerPos.x - xDoc;
+      let w = (x - rectInitCornerPos.x);
+      let h = (y - rectInitCornerPos.y);
+      let xAreaMeas = rectInitCornerPos.x;
+      let yAreaMeas = rectInitCornerPos.y;
+      if (x < rectInitCornerPos.x) {
+        xAreaMeas = x;
+        w = rectInitCornerPos.x - x;
       }
-      if (yDoc < rectInitCornerPos.y) {
-        y = yDoc;
-        h = rectInitCornerPos.y - yDoc;
+      if (y < rectInitCornerPos.y) {
+        yAreaMeas = y;
+        h = rectInitCornerPos.y - y;
       }
       measureEltTxt.textContent = w + 'x' + h;
       let textRect = measureEltTxt.getBoundingClientRect();
       // console.log(w + ', ' + h)
       let fontSize = 12;
       if ((w < textRect.width && w < 32) || (h < textRect.height && h < 14)) {
-        if (y < h + textRect.height) {
+        if (yAreaMeas < h + textRect.height) {
           // too close to the top, cant move to the top
           setStyleProp(measureEltTxt, {
             position: 'relative',
@@ -162,7 +178,7 @@
             left: '-3px'
           });
         }
-        if (x > window.innerHeight - 42) {
+        if (xAreaMeas > window.innerHeight - 42) {
           // too close to the right, go left
           setStyleProp(measureEltTxt, {
             position: 'relative',
@@ -176,7 +192,7 @@
           });
         }
         setStyleProp(measureEltTxt, {
-          backgroundColor: 'rgba(255,255,255,0.8)'
+          backgroundColor: 'rgba(255,255,255,0.9)'
         });
         setStyleProp(measureElt, {
           display: 'block'
@@ -194,8 +210,8 @@
       setStyleProp(measureElt, {
         width: w + 'px',
         height: h + 'px',
-        left: x + 'px',
-        top: y + 'px',
+        left: xAreaMeas + 'px',
+        top: yAreaMeas + 'px',
         fontSize: fontSize + 'px'
       });
     }
@@ -206,8 +222,8 @@
       if ((ev && ev.keyCode === SIZE_KEY_CODE) || triggeringWithMouse) {
         isWidthOn = true;
         if (lastMouseLocationEv) {
-          rectInitCornerPos.x = lastMouseLocationEv.pageX;
-          rectInitCornerPos.y = lastMouseLocationEv.pageY;
+          rectInitCornerPos.x = lastMouseLocationEv.clientX;
+          rectInitCornerPos.y = lastMouseLocationEv.clientY;
         }
       }
     }
@@ -247,7 +263,6 @@
   showWidthOff(null, true);
 
   document.addEventListener('mousemove', showPosition, true);
-  // document.addEventListener('scroll', showPosition, true);
   document.addEventListener('mousedown', showWidthOn, true);
   document.addEventListener('mouseup', showWidthOff);
   if (window.mousepositionOptionsPage) {
