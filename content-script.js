@@ -16,6 +16,7 @@
     }
   };
   let measureArea = true;
+  let doScreenCoordinates = false;
   let isOn = false;
   let isWidthOn = false;
   let triggeringWithMouse = true;
@@ -126,11 +127,16 @@
     let yDoc = ev.pageY;
     let topOffset = 20;
     let leftOffset = 10;
-    elt.textContent = ev.clientX + ', ' + ev.clientY;
+    let tooltipText = '';
+    tooltipText = ev.clientX + ', ' + ev.clientY;
     lastMouseLocationEv = ev;
     if (x !== xDoc || y !== yDoc) {
-      elt.textContent = xDoc + ', ' + yDoc + ' (' + ev.clientX + ', ' + ev.clientY + ')';
+      tooltipText = xDoc + ', ' + yDoc + ' (' + ev.clientX + ', ' + ev.clientY + ')';
     }
+    if (doScreenCoordinates) {
+      tooltipText += ' [' + ev.screenX + ', ' + ev.screenY + ']';
+    }
+    elt.textContent = tooltipText;
     let rect = elt.getBoundingClientRect();
     let width = rect.width;
     let height = rect.height;
@@ -245,6 +251,7 @@
     document.removeEventListener('mouseup', showWidthOff);
     document.removeEventListener('keyup', showWidthOff);
     measureArea = opts.measureArea;
+    doScreenCoordinates = opts.doScreenCoordinates;
     if (measureArea) {
       if (opts.trigger === 'MOUSE') {
         triggeringWithMouse = true;

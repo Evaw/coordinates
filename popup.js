@@ -47,7 +47,8 @@
       setIconState(tabId);
       chrome.storage.sync.get({
         trigger: 'MOUSE',
-        measureArea: true
+        measureArea: true,
+        doScreenCoordinates: false
       }, function (items) {
         chrome.tabs.sendMessage(tabId, {
           op: 'options',
