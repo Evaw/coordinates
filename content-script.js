@@ -116,11 +116,16 @@
       setOptions(request.value);
     }
   });
-
+  let lastEv = null;
   const showPosition = function (ev) {
     if (!isOn) {
       return;
     }
+    ev = ev || lastEv;
+    if (!ev) {
+      return;
+    }
+    lastEv = ev;
     let x = ev.clientX;
     let y = ev.clientY;
     let xDoc = ev.pageX;
@@ -252,6 +257,7 @@
     document.removeEventListener('keyup', showWidthOff);
     measureArea = opts.measureArea;
     doScreenCoordinates = opts.doScreenCoordinates;
+
     if (measureArea) {
       if (opts.trigger === 'MOUSE') {
         triggeringWithMouse = true;
@@ -266,6 +272,7 @@
     } else {
       showWidthOff(null, true);
     }
+    showPosition();
   };
   showWidthOff(null, true);
 
