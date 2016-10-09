@@ -1,6 +1,6 @@
 {
   "name": "coordiantes",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A chrome extension to track mouse position",
   "main": "content-script.js",
   "scripts": {

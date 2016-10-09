@@ -227,8 +227,13 @@
       });
     }
   };
+  let measuringArea = false;
   const SIZE_KEY_CODE = 16; // shift
   const showWidthOn = (ev) => {
+    if (measuringArea) {
+      return;
+    }
+    measuringArea = true;
     if (measureArea) {
       if ((ev && ev.keyCode === SIZE_KEY_CODE) || triggeringWithMouse) {
         isWidthOn = true;
@@ -240,6 +245,7 @@
     }
   };
   const showWidthOff = (ev, force) => {
+    measuringArea = false;
     if ((ev && ev.keyCode === SIZE_KEY_CODE) || triggeringWithMouse || force) {
       isWidthOn = false;
       setStyleProp(measureElt, {
