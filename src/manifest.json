@@ -1,31 +1,31 @@
 {
   "manifest_version": 2,
-  "name": "coordinates",
-  "version": "1.2.2",
+  "name": "coordinates -dev",
+  "version": "1.2.3",
   "icons": {
-    "48": "icon48.png",
-    "128": "icon128.png",
-    "300": "icon300.png"
+    "48": "img/icons/icon48.png",
+    "128": "img/icons/icon128.png",
+    "300": "img/icons/icon300.png"
   },
   "description": "Adds a mouse position tooltip, with its x and y coordinates. Also measures areas of regions.",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["content-script.js"],
+      "js": ["js/content-script.js"],
       "all_frames": true
     }
 
   ],
   "background": {
-    "scripts": ["popup.js"]
+    "scripts": ["js/popup.js"]
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "html/options.html",
     "chrome_style": true
   },
   "browser_action": {
-    "default_icon": "iconoff128.png",
-    "__default_popup": "popup.html"
+    "default_icon": "img/icons/iconoff128.png",
+    "__default_popup": "html/popup.html"
   },
   "permissions": [
     "tabs",

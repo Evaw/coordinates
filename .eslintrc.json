@@ -1,16 +1,22 @@
 {
   "documentation": "https://github.com/feross/eslint-config-standard/blob/master/eslintrc.json",
-  "parser": "esprima",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "esversion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
   },
   "plugins": [
+    "react",
     "standard",
     "promise"
   ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "globals": {
-    "angular": true,
     "document": false,
     "navigator": false,
     "window": false

@@ -1,13 +1,13 @@
-/*global chrome:false, document:false, console:false, localStorage: false*/
+/*global chrome:false, document:false, localStorage: false*/
 (function (window) {
   'use strict';
   var isOn = {};
   function setIconState (tabId) {
     var icon;
     if (isOn[tabId]) {
-      icon = 'icon48.png';
+      icon = 'img/icons/icon48.png';
     } else {
-      icon = 'iconoff48.png';
+      icon = 'img/icons/iconoff48.png';
     }
     chrome.browserAction.setIcon({
       tabId: tabId,
@@ -92,7 +92,7 @@
   }
 
   function onUpdate () {
-    console.log('Extension Updated');
+    // console.log('Extension Updated');
   }
 
   function getVersion () {

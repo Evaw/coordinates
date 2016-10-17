@@ -1,6 +1,6 @@
 {
   "name": "coordiantes",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A chrome extension to track mouse position",
   "main": "content-script.js",
   "scripts": {
@@ -9,5 +9,25 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^7.3.0",
+    "eslint": "^3.8.0",
+    "eslint-plugin-promise": "^3.0.0",
+    "eslint-plugin-react": "^6.4.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^19.0.0",
+    "grunt-webpack": "^1.0.18",
+    "load-grunt-tasks": "^3.5.2"
   }
 }

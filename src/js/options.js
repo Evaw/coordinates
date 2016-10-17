@@ -1,33 +1,10 @@
 /*global chrome:false, document:false,
-  Promise:false, setTimeout: false*/
+  setTimeout: false, require*/
 // Saves options to chrome.storage
-let PromiseWrapper = function () {
-  let resolver;
-  let rejecter;
+const Pubsub = require('./Pubsub');
+const PromiseWrapper = require('./PromiseWrapper');
 
-  let promise = new Promise(function (resolve, reject) {
-    resolver = resolve;
-    rejecter = reject;
-  });
-  promise.resolver = resolver;
-  promise.rejecter = rejecter;
-  return promise;
-};
 let optionsPromise = new PromiseWrapper();
-let Pubsub = function () {
-  var ps = {};
-  this.sub = function (ev, fn) {
-    ps[ev] = ps[ev] || [];
-    ps[ev].push(fn);
-  };
-  this.pub = function (ev, args) {
-    var argsArr = Array.prototype.slice.apply(arguments);
-    argsArr.splice(0, 1);
-    ps[ev].forEach(function (fn) {
-      fn.apply(null, argsArr);
-    });
-  };
-};
 let ps = new Pubsub();
 const TRIGGERS = {
   MOUSE: 'MOUSE',
@@ -158,4 +135,3 @@ window.mousepositionOptionsPage = {
   pubsub: ps,
   optionsPromise: optionsPromise
 };
-

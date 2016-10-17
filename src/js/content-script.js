@@ -1,11 +1,11 @@
-/* global chrome:false, document:false, console:false*/
+/* global chrome:false, document:false*/
 
-(function (window) {
+(function () {
   'use strict';
   const DISPLAY_ID = 'mouseposition-extension-element-coordinate-display';
   if (document.getElementById(DISPLAY_ID)) {
     // already have the elements
-    console.log('[coordinates extension already running]');
+    // console.log('[coordinates extension already running]');
     return;
   }
   const setStyleProp = (el, obj) => {
@@ -283,8 +283,8 @@
   showWidthOff(null, true);
 
   document.addEventListener('mousemove', showPosition, true);
-  document.addEventListener('mousedown', showWidthOn, true);
-  document.addEventListener('mouseup', showWidthOff);
+  // document.addEventListener('mousedown', showWidthOn, true);
+  // document.addEventListener('mouseup', showWidthOff);
   if (window.mousepositionOptionsPage) {
     window.mousepositionOptionsPage.pubsub.sub('optionsChanged', setOptions);
     window.mousepositionOptionsPage.optionsPromise.then(function (opts) {
@@ -293,4 +293,4 @@
     isOn = true;
     toggle(isOn);
   }
-}(this));
+}());
