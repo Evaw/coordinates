@@ -1,6 +1,6 @@
 {
   "name": "coordiantes",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A chrome extension to track mouse position",
   "main": "content-script.js",
   "scripts": {
@@ -28,6 +28,8 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-webpack": "^1.0.18",
-    "load-grunt-tasks": "^3.5.2"
+    "load-grunt-tasks": "^3.5.2",
+    "webpack": "1",
+    "webpack-dev-server": "^2.4.2"
   }
 }

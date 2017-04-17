@@ -48,7 +48,8 @@
       chrome.storage.sync.get({
         trigger: 'MOUSE',
         measureArea: true,
-        doScreenCoordinates: false
+        doScreenCoordinates: false,
+        longFormat: false
       }, function (items) {
         chrome.tabs.sendMessage(tabId, {
           op: 'options',

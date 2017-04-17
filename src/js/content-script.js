@@ -16,12 +16,13 @@
     }
   };
   let measureArea = true;
+  let longFormat = false;
   let doScreenCoordinates = false;
   let isOn = false;
   let isWidthOn = false;
   let triggeringWithMouse = true;
   let elt;
-  elt = document.createElement('div');
+  elt = document.createElement('pre');
   elt.id = DISPLAY_ID;
   let fullContainer = document.createElement('div');
   fullContainer.id = 'mouseposition-extension-element-full-container';
@@ -38,7 +39,7 @@
   });
   document.body.appendChild(fullContainer);
   let measureElt = document.createElement('div');
-  let measureEltTxt = document.createElement('div');
+  let measureEltTxt = document.createElement('pre');
   fullContainer.appendChild(measureElt);
   const areaMeasureColor = '#000';
   const areaMeasureBg = 'rgba(255,255,255,0.7)';
@@ -79,9 +80,11 @@
     padding: '3px',
     zIndex: '2147483647',
     color: '#222',
-    whiteSpace: 'nowrap',
+    // whiteSpace: 'nowrap',
     userSelect: 'none',
-    cursor: 'default'
+    cursor: 'default',
+    'font-family': '"Helvetica Neue", Helvetica, Arial, sans-serif'
+
   });
   setStyleProp(measureElt, {
     position: 'absolute',
@@ -90,11 +93,12 @@
     fontSize: '12px',
     zIndex: '2147483647',
     justifyContent: 'center',
-    whiteSpace: 'nowrap',
+    // whiteSpace: 'nowrap',
     alignItems: 'center',
     userSelect: 'none',
     cursor: 'default',
-    color: areaMeasureColor
+    color: areaMeasureColor,
+    'font-family': '"Helvetica Neue", Helvetica, Arial, sans-serif'
   });
   const toggle = function (onOrOff) {
     if (isOn) {
@@ -133,15 +137,35 @@
     let topOffset = 20;
     let leftOffset = 10;
     let tooltipText = '';
-    tooltipText = ev.clientX + ', ' + ev.clientY;
+    let tooltipTextArr = [(ev.clientX + ', ' + ev.clientY)];
+    // tooltipText = ev.clientX + ', ' + ev.clientY;
+    if (longFormat) {
+      tooltipTextArr[0] += ' (page)';
+    }
     lastMouseLocationEv = ev;
     if (x !== xDoc || y !== yDoc) {
-      tooltipText = xDoc + ', ' + yDoc + ' (' + ev.clientX + ', ' + ev.clientY + ')';
+      tooltipTextArr = [(xDoc + ', ' + yDoc)];
+      if (longFormat) {
+        tooltipTextArr[0] += ' (page)';
+      }
+      tooltipTextArr.push(ev.clientX + ', ' + ev.clientY);
+      if (longFormat) {
+        tooltipTextArr[tooltipTextArr.length - 1] += ' (client)';
+      } else {
+        tooltipTextArr[tooltipTextArr.length - 1] = `(${tooltipTextArr[tooltipTextArr.length - 1]})`;
+      }
     }
+
     if (doScreenCoordinates) {
-      tooltipText += ' [' + ev.screenX + ', ' + ev.screenY + ']';
+      tooltipTextArr.push(ev.screenX + ', ' + ev.screenY);
+      if (longFormat) {
+        tooltipTextArr[tooltipTextArr.length - 1] += ' (screen)\n';
+      } else {
+        tooltipTextArr[tooltipTextArr.length - 1] = `[${tooltipTextArr[tooltipTextArr.length - 1]}]`;
+      }
     }
-    elt.textContent = tooltipText;
+
+    elt.textContent = tooltipTextArr.join(longFormat ? '\n' : ' ');
     let rect = elt.getBoundingClientRect();
     let width = rect.width;
     let height = rect.height;
@@ -257,6 +281,7 @@
   };
   const setOptions = (opts) => {
     measureArea = opts.measureArea;
+    longFormat = opts.longFormat;
     document.removeEventListener('keydown', showWidthOn);
     document.removeEventListener('mousedown', showWidthOn);
     document.removeEventListener('mouseup', showWidthOff);

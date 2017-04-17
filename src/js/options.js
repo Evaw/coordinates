@@ -11,6 +11,7 @@ const TRIGGERS = {
   KEYBOARD: 'KEYBOARD'
 };
 let defaults = {
+  longFormat: false,
   trigger: TRIGGERS.MOUSE,
   measureArea: true,
   doScreenCoordinates: false
@@ -62,6 +63,7 @@ function getInputValueFromForm () {
   }
   o.doScreenCoordinates = getInputValueChecked('screen-coordinates');
   o.measureArea = !!getInputValueChecked('measure-area');
+  o.longFormat = !!getInputValueChecked('long-format');
   return o;
 }
 function saveOptions () {
@@ -122,6 +124,7 @@ function restoreOptions () {
     }
     setChecked('screen-coordinates', items.doScreenCoordinates);
     setChecked('measure-area', items.measureArea);
+    setChecked('long-format', items.longFormat);
     optionsPromise.resolver(items);
   });
 }
