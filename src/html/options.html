@@ -36,7 +36,7 @@
   button.dirty:hover {
     background: #256bc1 !important;
   }
-  .triggers-labels.disabled {
+  .disabled {
     color: #999;
   }
 
@@ -49,24 +49,45 @@
     <table>
       <tr>
         <td>
-          <input type="checkbox" name="long-format" id="long-format" />
+          <input type="checkbox" name="display-mouse-position" id="display-mouse-position" />
         </td>
         <td>
-          <label for="long-format">
-            long format
+          <label for="display-mouse-position">
+            display mouse position
           </label>
         </td>
       </tr>
       <tr>
         <td>
-          <input type="checkbox" name="screen-coordinates" id="screen-coordinates" />
         </td>
         <td>
-          <label for="screen-coordinates">
-            screen coordinates [x, y]
-          </label>
+          <table>
+            <tr>
+              <td>
+                <input type="checkbox" name="long-format" id="long-format" />
+              </td>
+              <td>
+                <label for="long-format" class="mouse-postion-label">
+                  long format
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="screen-coordinates" id="screen-coordinates" />
+              </td>
+              <td>
+                <label for="screen-coordinates" class="mouse-postion-label">
+                  screen coordinates [x, y]
+                </label>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
+    </table>
+    <hr/>
+    <table>
       <tr>
         <td>
           <input type="checkbox" name="measure-area" id="measure-area" />
@@ -77,26 +98,31 @@
           </label>
         </td>
       </tr>
-    </table>
-    <hr/>
-    <table>
-      <tr>
-        <th colspan="2" class="triggers-labels">Trigger area measurement</th>
-      </tr>
       <tr>
         <td>
-          <input type="radio" name="trigger" id="trigger-keyboard" value="keyboard">
         </td>
         <td>
-          <label class="triggers-labels" for="trigger-keyboard">keyboard (using  <strong><em> shift </em></strong>)</label>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input type="radio" name="trigger" id="trigger-mouse" value="mouse">
-        </td>
-        <td>
-          <label class="triggers-labels" for="trigger-mouse">mouse drag</label>
+          <table>
+            <tr>
+              <th colspan="2" class="triggers-labels">Trigger area measurement</th>
+            </tr>
+            <tr>
+              <td>
+                <input type="radio" name="trigger" id="trigger-keyboard" value="keyboard">
+              </td>
+              <td>
+                <label class="triggers-labels" for="trigger-keyboard">keyboard (using  <strong><em> shift </em></strong>)</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="radio" name="trigger" id="trigger-mouse" value="mouse">
+              </td>
+              <td>
+                <label class="triggers-labels" for="trigger-mouse">mouse drag</label>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
     </table>

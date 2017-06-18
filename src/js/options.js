@@ -12,6 +12,7 @@ const TRIGGERS = {
 };
 let defaults = {
   longFormat: false,
+  displayMousePosition: true,
   trigger: TRIGGERS.MOUSE,
   measureArea: true,
   doScreenCoordinates: false
@@ -64,13 +65,57 @@ function getInputValueFromForm () {
   o.doScreenCoordinates = getInputValueChecked('screen-coordinates');
   o.measureArea = !!getInputValueChecked('measure-area');
   o.longFormat = !!getInputValueChecked('long-format');
+  o.displayMousePosition = !!getInputValueChecked('display-mouse-position');
   return o;
 }
 function saveOptions () {
   document.getElementById('save').classList.remove('dirty');
   setOptions(getInputValueFromForm());
 }
-
+const updateAreaMesaureDisabledView = () => {
+  let areaMeasureCheckbox = document.getElementById('measure-area');
+  let triggerKeyboard = document.getElementById('trigger-keyboard');
+  let triggerMouse = document.getElementById('trigger-mouse');
+  if (areaMeasureCheckbox.checked) {
+    triggerKeyboard.removeAttribute('disabled', areaMeasureCheckbox.checked);
+    triggerMouse.removeAttribute('disabled', areaMeasureCheckbox.checked);
+    let labels = document.querySelectorAll('.triggers-labels');
+    labels.forEach((labelDom) => {
+      labelDom.classList.remove('disabled');
+    });
+  } else {
+    triggerKeyboard.setAttribute('disabled', areaMeasureCheckbox.checked);
+    triggerMouse.setAttribute('disabled', areaMeasureCheckbox.checked);
+    let labels = document.querySelectorAll('.triggers-labels');
+    labels.forEach((labelDom) => {
+      labelDom.classList.add('disabled');
+    });
+  }
+};
+const updateMousePostionDisabledView = () => {
+  let displayMousePositionCheckbox = document.getElementById('display-mouse-position');
+  const inputs = [
+    document.getElementById('long-format'),
+    document.getElementById('screen-coordinates')
+  ];
+  if (displayMousePositionCheckbox.checked) {
+    inputs.forEach(input => {
+      input.removeAttribute('disabled', displayMousePositionCheckbox.checked);
+    });
+    let labels = document.querySelectorAll('.mouse-postion-label');
+    labels.forEach((labelDom) => {
+      labelDom.classList.remove('disabled');
+    });
+  } else {
+    inputs.forEach(input => {
+      input.setAttribute('disabled', displayMousePositionCheckbox.checked);
+    });
+    let labels = document.querySelectorAll('.mouse-postion-label');
+    labels.forEach((labelDom) => {
+      labelDom.classList.add('disabled');
+    });
+  }
+};
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function onLoad () {
@@ -88,31 +133,15 @@ function onLoad () {
 
   let areaMeasureCheckbox = document.getElementById('measure-area');
   areaMeasureCheckbox.addEventListener('change', function () {
-    let triggerKeyboard = document.getElementById('trigger-keyboard');
-    let triggerMouse = document.getElementById('trigger-mouse');
-    if (areaMeasureCheckbox.checked) {
-      triggerKeyboard.removeAttribute('disabled', areaMeasureCheckbox.checked);
-      triggerMouse.removeAttribute('disabled', areaMeasureCheckbox.checked);
-      let labels = document.querySelectorAll('.triggers-labels');
-      labels.forEach((labelDom) => {
-        labelDom.classList.remove('disabled');
-      });
-    } else {
-      triggerKeyboard.setAttribute('disabled', areaMeasureCheckbox.checked);
-      triggerMouse.setAttribute('disabled', areaMeasureCheckbox.checked);
-      let labels = document.querySelectorAll('.triggers-labels');
-      labels.forEach((labelDom) => {
-        labelDom.classList.add('disabled');
-      });
-    }
+    updateAreaMesaureDisabledView();
+  });
+  let displayMousePositionCheckbox = document.getElementById('display-mouse-position');
+  displayMousePositionCheckbox.addEventListener('change', function () {
+    updateMousePostionDisabledView();
   });
 }
 function restoreOptions () {
-  // Use default value color = 'red'
   chrome.storage.sync.get(defaults, function (items) {
-    // function setInputValueToItem (item) {
-    //   document.getElementById(item).value = items[item];
-    // }
     function setChecked (item, val) {
       document.getElementById(item).checked = val;
     }
@@ -125,6 +154,9 @@ function restoreOptions () {
     setChecked('screen-coordinates', items.doScreenCoordinates);
     setChecked('measure-area', items.measureArea);
     setChecked('long-format', items.longFormat);
+    setChecked('display-mouse-position', items.displayMousePosition);
+    updateAreaMesaureDisabledView();
+    updateMousePostionDisabledView();
     optionsPromise.resolver(items);
   });
 }

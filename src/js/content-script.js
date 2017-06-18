@@ -2,6 +2,7 @@
 
 (function () {
   'use strict';
+  const textColor = '#222';
   const DISPLAY_ID = 'mouseposition-extension-element-coordinate-display';
   if (document.getElementById(DISPLAY_ID)) {
     // already have the elements
@@ -17,6 +18,7 @@
   };
   let measureArea = true;
   let longFormat = false;
+  let displayMousePosition = true;
   let doScreenCoordinates = false;
   let isOn = false;
   let isWidthOn = false;
@@ -79,7 +81,7 @@
     borderStyle: 'solid',
     padding: '3px',
     zIndex: '2147483647',
-    color: '#222',
+    color: textColor,
     // whiteSpace: 'nowrap',
     userSelect: 'none',
     cursor: 'default',
@@ -179,8 +181,17 @@
       // left: xDoc + leftOffset + 'px',
       // top: yDoc + topOffset + 'px'
       left: x + leftOffset + 'px',
-      top: y + topOffset + 'px'
+      top: y + topOffset + 'px',
+      color: textColor,
+      display: displayMousePosition ? 'block' : 'none'
     });
+    if (!displayMousePosition && !measureArea) {
+      setStyleProp(elt, {
+        display: 'block',
+        color: 'red'
+      });
+      elt.textContent = 'Coordinates Extension configured so it doesnt display anything.\n\rCheck extension options.';
+    }
     if (isWidthOn) {
       let w = (x - rectInitCornerPos.x);
       let h = (y - rectInitCornerPos.y);
@@ -282,6 +293,7 @@
   const setOptions = (opts) => {
     measureArea = opts.measureArea;
     longFormat = opts.longFormat;
+    displayMousePosition = opts.displayMousePosition;
     document.removeEventListener('keydown', showWidthOn);
     document.removeEventListener('mousedown', showWidthOn);
     document.removeEventListener('mouseup', showWidthOff);

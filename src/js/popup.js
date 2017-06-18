@@ -49,7 +49,8 @@
         trigger: 'MOUSE',
         measureArea: true,
         doScreenCoordinates: false,
-        longFormat: false
+        longFormat: false,
+        displayMousePosition: true
       }, function (items) {
         chrome.tabs.sendMessage(tabId, {
           op: 'options',
