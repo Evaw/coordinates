@@ -140,6 +140,7 @@ module.exports = function (grunt) {
     }
   };
   grunt.initConfig(gconfig);
-  grunt.registerTask('default', ['clean', 'copy', 'webpack', 'shell:minify']);
+  grunt.registerTask('default', ['clean', 'copy', 'webpack']);
+  grunt.registerTask('prod', ['default', 'shell:minify'])
   grunt.registerTask('dev', ['default', 'watch']);
 };
