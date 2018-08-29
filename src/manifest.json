@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "coordinates",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "icons": {
     "48": "img/icons/icon48.png",
     "128": "img/icons/icon128.png",
@@ -10,7 +10,7 @@
   "description": "Adds a mouse position tooltip, with its x and y coordinates. Also measures areas of regions.",
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["http://*/*", "https://*/*", "file:///*/*"],
       "js": ["js/content-script.js"],
       "all_frames": true
     }
